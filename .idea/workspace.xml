@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d6f0b0ce-f0d3-475d-97e1-aa4354caee05" name="Changes" comment="0.2&#10;Congratulations if clicked the ball!">
+    <list default="true" id="d6f0b0ce-f0d3-475d-97e1-aa4354caee05" name="Changes" comment="1.0&#10;Documentation for functions!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -90,12 +90,30 @@
       <option name="project" value="LOCAL" />
       <updated>1712145947576</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="0.3&#10;Added Score!">
+      <option name="closed" value="true" />
+      <created>1712147047543</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1712147047543</updated>
+    </task>
+    <task id="LOCAL-00004" summary="1.0&#10;Documentation for functions!">
+      <option name="closed" value="true" />
+      <created>1712147648350</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1712147648350</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="0.1&#10;Added Circles" />
     <MESSAGE value="0.2&#10;Congratulations if clicked the ball!" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.2&#10;Congratulations if clicked the ball!" />
+    <MESSAGE value="0.3&#10;Added Score!" />
+    <MESSAGE value="1.0&#10;Documentation for functions!" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.0&#10;Documentation for functions!" />
   </component>
 </project>

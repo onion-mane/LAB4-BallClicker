@@ -1,11 +1,16 @@
 import pygame
 from pygame.draw import *
-from random import randint
+from random import *
 from math import sqrt
+from time import *
 pygame.init()
 
-FPS = 1
-screen = pygame.display.set_mode((1200, 900))
+FPS = 60
+WIDTH, HEIGHT = 1200, 900
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+NUM_OF_BALLS = 6
+balls_array = []
 
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
@@ -18,19 +23,50 @@ COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 global SCORE
 
+
 def new_ball():
     '''
-    Создает новый шар с координатами (x, y) и радиусом r.
-    x, y, r - глобальные переменные
+    Задает параметры для нового шара в виде массива.
+    Параметры по индексам
+    0, 1) - координаты x, y
+    2) r - радиус
+    3) color - цвет
+    4) dx - скорость по x
+    5) dy - скорость по y
     '''
     global x, y, r
     x = randint(100,700)
     y = randint(100,500)
     r = randint(30,100)
-    color = COLORS[randint(0, 5)]
-    circle(screen, color, (x, y), r)
+    dx, dy = randint(-4, 4), randint(-4, 4)
+    color = choice(COLORS)
+    return [x,y,r,color,dx,dy]
 
-def ball_is_clicked(clickPos, ballPos, radius):
+
+
+
+def draw_ball(ball):
+    circle(screen, ball[3], (ball[0], ball[1]), ball[2])
+    f1 = pygame.font.Font(None, 32)
+    ball_text = f1.render(str(110 - ball[2]), 1, "Black")
+    screen.blit(ball_text, (ball[0]-12, ball[1]-10))
+    '''
+    Отрисовывает шар (ball)
+    '''
+
+def move_ball(ball):
+    ball[0] += ball[4]
+    ball[1] += ball[5]
+    if ball[0] - ball[2] < 0 or ball[0] + ball[2] > WIDTH:
+        ball[4] = -ball[4]
+    if ball[1] - ball[2] < 0 or ball[1] + ball[2] > HEIGHT:
+        ball[5] = -ball[5]
+    '''
+    Двигает шар (ball)
+    Отвечает за столкновение со стенами
+    '''
+
+def ball_is_clicked(event, ball):
     '''
     Проверяет попадание по шару
     :param clickPos: кортеж с координатами клика
@@ -38,17 +74,19 @@ def ball_is_clicked(clickPos, ballPos, radius):
     :param radius: радиус шара
     :return: 1 - попадание, 0 - промах
     '''
-    distance_vec = (clickPos[0] - ballPos[0],
-                    clickPos[1] - ballPos[1])
-    if sqrt(distance_vec[0]*distance_vec[0] + distance_vec[1]*distance_vec[1]) <= radius:
+    distance_vec = (event.pos[0] - ball[0],
+                    event.pos[1] - ball[1])
+    if sqrt(distance_vec[0]**2 + distance_vec[1]**2) <= ball[2]:
+
         return 1
     else:
         return 0
 
 
+
 def score_tracker():
     '''
-    Пополняет и выводит счет на экран.
+    Рендерит текст со счетом на экран.
     :return:
     '''
     f1 = pygame.font.Font(None, 64)
@@ -61,19 +99,26 @@ clock = pygame.time.Clock()
 finished = False
 SCORE = 0
 
+for _ in range(NUM_OF_BALLS):
+    balls_array.append(new_ball())
+
 while not finished:
     clock.tick(FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            print('Click!')
-            if event.button == 1:
-                if (ball_is_clicked(event.pos, (x, y), r)):
-                    SCORE += 110 - r
+            for ball in balls_array:
+                if (ball_is_clicked(event,ball)):
+                    SCORE += 110 - ball[2]
+                    balls_array.remove(ball)
+                    balls_array.append(new_ball())
                 pygame.display.update()
+
     score_tracker()
-    new_ball()
+    for ball in balls_array:
+        draw_ball(ball)
+        move_ball(ball)
     pygame.display.update()
     screen.fill(BLACK)
 pygame.quit()
