@@ -18,10 +18,11 @@ COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 global SCORE
 
-
-
-
 def new_ball():
+    '''
+    Создает новый шар с координатами (x, y) и радиусом r.
+    x, y, r - глобальные переменные
+    '''
     global x, y, r
     x = randint(100,700)
     y = randint(100,500)
@@ -29,11 +30,14 @@ def new_ball():
     color = COLORS[randint(0, 5)]
     circle(screen, color, (x, y), r)
 
-def print_positions(event):
-    print("Ball Pos: ", x, y, r)
-    print("Click Pos: ", event.pos)
-
 def ball_is_clicked(clickPos, ballPos, radius):
+    '''
+    Проверяет попадание по шару
+    :param clickPos: кортеж с координатами клика
+    :param ballPos: кортеж с координатами шара
+    :param radius: радиус шара
+    :return: 1 - попадание, 0 - промах
+    '''
     distance_vec = (clickPos[0] - ballPos[0],
                     clickPos[1] - ballPos[1])
     if sqrt(distance_vec[0]*distance_vec[0] + distance_vec[1]*distance_vec[1]) <= radius:
@@ -42,6 +46,14 @@ def ball_is_clicked(clickPos, ballPos, radius):
         return 0
 
 
+def score_tracker():
+    '''
+    Пополняет и выводит счет на экран.
+    :return:
+    '''
+    f1 = pygame.font.Font(None, 64)
+    text1 = f1.render("Счёт: " + str(SCORE), 1, "White")
+    screen.blit(text1, (10, 10))
 
 
 pygame.display.update()
@@ -59,16 +71,9 @@ while not finished:
             if event.button == 1:
                 if (ball_is_clicked(event.pos, (x, y), r)):
                     SCORE += 110 - r
-                # print_positions(event)
                 pygame.display.update()
-
-    f1 = pygame.font.Font(None, 64)
-    text1 = f1.render("Счёт: " + str(SCORE), 1, "White")
-    screen.blit(text1, (10, 10))
-
+    score_tracker()
     new_ball()
-
     pygame.display.update()
     screen.fill(BLACK)
-
 pygame.quit()
